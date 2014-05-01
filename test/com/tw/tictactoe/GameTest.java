@@ -30,6 +30,7 @@ public class GameTest {
         //say things are fine when we aren't testing behaviour of when they aren't
         when(validator.validate(anyString())).thenReturn(true);
         when(board.takeSpace(anyInt(), any(Player.class))).thenReturn(true);
+        when(board.isFull()).thenReturn(false).thenReturn(true); //except this, this seems like a code smell
         game = new Game(controller, printStream, board, validator, parser);
     }
 
@@ -69,6 +70,7 @@ public class GameTest {
 
     @Test
     public void shouldPromptPlayer2ForMoveAfterPlayer1() {
+        when(board.isFull()).thenReturn(false).thenReturn(false).thenReturn(true);
         game.play();
         InOrder order = inOrder(controller);
         order.verify(controller).takeMove(Player.ONE);
@@ -80,6 +82,13 @@ public class GameTest {
         when(board.takeSpace(anyInt(), any(Player.class))).thenReturn(false).thenReturn(true);
         game.play();
         verify(printStream).println("Location already taken");
+    }
+
+    @Test
+    public void shouldNotTakeMoreMovesWhenBoardIsFull() {
+        when(board.isFull()).thenReturn(true);
+        game.play();
+        verify(controller, never()).takeMove(any(Player.class));
     }
 
 }
