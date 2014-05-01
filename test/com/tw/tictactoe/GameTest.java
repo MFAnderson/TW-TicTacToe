@@ -2,6 +2,7 @@ package com.tw.tictactoe;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 
 import java.io.PrintStream;
 
@@ -60,6 +61,16 @@ public class GameTest {
     @Test
     public void shouldRedrawBoardAfterMoveIsTaken() {
         game.play();
-        verify(board, times(2)).drawBoard(); //this is also kind of weird, since it's going to fail as soon as the redraw is in a loop
+        InOrder ordered = inOrder(controller, board);
+        ordered.verify(controller).takeMove(any(Player.class));
+        ordered.verify(board).drawBoard();
+    }
+
+    @Test
+    public void shouldPromptPlayer2ForMoveAfterPlayer1() {
+        game.play();
+        InOrder order = inOrder(controller);
+        order.verify(controller).takeMove(Player.ONE);
+        order.verify(controller).takeMove(Player.TWO);
     }
 }

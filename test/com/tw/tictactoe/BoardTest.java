@@ -48,7 +48,7 @@ public class BoardTest {
     }
 
     @Test
-    public void shouldDrawXInOccupiedSpace() {
+    public void shouldDrawXInSpaceOccupiedByPlayerOne() {
         boardSpaces[0][0] = Player.ONE;
         boardSpaces[2][1] = Player.ONE;
         board.drawBoard();
@@ -65,5 +65,18 @@ public class BoardTest {
     public void shouldTrackSpaceSelectedByPlayer2() {
         board.takeSpace(1, Player.TWO);
         assertThat(boardSpaces[0][0], is(Player.TWO));
+    }
+
+    @Test
+    public void shouldDrawOInSpaceOccupiedByPlayerTwo() {
+        boardSpaces[1][1] = Player.TWO;
+        board.drawBoard();
+        verify(printStream).println(
+                            " | | " + "\n"
+                        +   "-----" + "\n"
+                        +   " |O| " + "\n"
+                        +   "-----" + "\n"
+                        +   " | | "
+        );
     }
 }

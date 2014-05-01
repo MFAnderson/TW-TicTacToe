@@ -25,8 +25,8 @@ public class Board {
                     boardVisualization += " ";
                 } else if (boardSpaces[i][j].equals(Player.ONE)) {
                     boardVisualization += "X";
-                } else {
-
+                } else if (boardSpaces[i][j].equals(Player.TWO)) {
+                    boardVisualization += "O";
                 }
                 if (j+1 < boardSpaces[i].length) {
                     boardVisualization += verticalSeparator;

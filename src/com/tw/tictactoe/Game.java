@@ -34,5 +34,16 @@ public class Game {
             }
         }
         board.drawBoard();
+        haveValidInput = false;
+        while (!haveValidInput) {
+            String input = controller.takeMove(Player.TWO);
+            haveValidInput = validator.validate(input);
+            if (!haveValidInput) {
+                printStream.println("That input is invalid. Please try again.");
+            } else {
+                board.takeSpace(parser.parse(input), Player.TWO);
+            }
+        }
+        board.drawBoard();
     }
 }
