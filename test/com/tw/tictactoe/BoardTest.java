@@ -79,4 +79,11 @@ public class BoardTest {
                         +   " | | "
         );
     }
+
+    @Test
+    public void shouldNotOverwriteOccupiedSpace() {
+        board.takeSpace(1, Player.ONE);
+        board.takeSpace(1, Player.TWO);
+        assertThat(boardSpaces[0][0], is(Player.ONE));
+    }
 }

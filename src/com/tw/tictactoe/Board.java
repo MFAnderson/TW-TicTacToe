@@ -42,6 +42,8 @@ public class Board {
         int zeroIndexedInput = input - 1;
         int row = zeroIndexedInput / 3;
         int column = zeroIndexedInput % 3;
-        boardSpaces[row][column] = player;
+        if (boardSpaces[row][column] == null) {
+            boardSpaces[row][column] = player;
+        }
     }
 }
