@@ -6,9 +6,7 @@ import org.junit.Test;
 import java.io.PrintStream;
 
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by manderso on 5/1/14.
@@ -19,15 +17,18 @@ public class GameTest {
     private Game game;
     private PrintStream printStream;
     private Board board;
-    private InputValidator parser;
+    private InputValidator validator;
+    private InputParser parser;
 
     @Before
     public void setUp() throws Exception {
         controller = mock(Controller.class);
         printStream = mock(PrintStream.class);
         board = mock(Board.class);
-        parser = mock(InputValidator.class);
-        game = new Game(controller, printStream, board, parser);
+        validator = mock(InputValidator.class);
+        parser = mock(InputParser.class);
+        when(validator.validate(anyString())).thenReturn(true);
+        game = new Game(controller, printStream, board, validator, parser);
     }
 
     @Test
@@ -38,8 +39,7 @@ public class GameTest {
 
     @Test
     public void shouldInformOfInvalidInput() {
-        when(controller.takeMove()).thenReturn("aaa").thenReturn("1");
-        when(parser.validate(anyString())).thenReturn(false).thenReturn(true);
+        when(validator.validate(anyString())).thenReturn(false).thenReturn(true);
         game.play();
         verify(printStream).println("That input is invalid. Please try again.");
     }
@@ -47,14 +47,19 @@ public class GameTest {
     @Test
     public void shouldDrawBoard() {
         game.play();
-        verify(board).drawBoard();
+        verify(board, atLeastOnce()).drawBoard(); //I feel like this "atLeastOnce" is sketchy
     }
 
     @Test
     public void shouldPerformMoveWhenGivenValidInput() {
-        when(controller.takeMove()).thenReturn("2");
-        when(parser.validate(anyString())).thenReturn(true);
-                game.play();
+        when(parser.parse(anyString())).thenReturn(2);
+        game.play();
         verify(board).takeSpace(2);
+    }
+
+    @Test
+    public void shouldRedrawBoardAfterMoveIsTaken() {
+        game.play();
+        verify(board, times(2)).drawBoard(); //this is also kind of weird, since it's going to fail as soon as the redraw is in a loop
     }
 }

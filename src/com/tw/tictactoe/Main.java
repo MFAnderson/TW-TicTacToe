@@ -13,8 +13,9 @@ public class Main {
         Board board = new Board(out, new boolean[3][3]);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Controller controller = new Controller(out, reader);
-        InputValidator parser = new InputValidator();
-        Game game = new Game(controller, out, board, parser);
+        InputValidator validator = new InputValidator();
+        InputParser parser = new InputParser();
+        Game game = new Game(controller, out, board, validator, parser);
         game.play();
     }
 }

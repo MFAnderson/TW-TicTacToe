@@ -9,13 +9,15 @@ public class Game {
     private Controller controller;
     private PrintStream printStream;
     private Board board;
-    private InputValidator parser;
+    private InputValidator validator;
+    private InputParser parser;
 
-    public Game(Controller controller, PrintStream printStream, Board board, InputValidator parser) {
+    public Game(Controller controller, PrintStream printStream, Board board, InputValidator validator, InputParser parser) {
 
         this.controller = controller;
         this.printStream = printStream;
         this.board = board;
+        this.validator = validator;
         this.parser = parser;
     }
 
@@ -24,12 +26,13 @@ public class Game {
         boolean haveValidInput = false;
         while (!haveValidInput) {
             String input = controller.takeMove();
-            haveValidInput = parser.validate(input);
+            haveValidInput = validator.validate(input);
             if (!haveValidInput) {
                 printStream.println("That input is invalid. Please try again.");
             } else {
-                board.takeSpace(Integer.valueOf(input));
+                board.takeSpace(parser.parse(input));
             }
         }
+        board.drawBoard();
     }
 }
