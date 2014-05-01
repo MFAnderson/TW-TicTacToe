@@ -8,17 +8,28 @@ import java.io.PrintStream;
 public class Game {
     private Controller controller;
     private PrintStream printStream;
+    private Board board;
+    private InputValidator parser;
 
-    public Game(Controller controller, PrintStream printStream) {
+    public Game(Controller controller, PrintStream printStream, Board board, InputValidator parser) {
 
         this.controller = controller;
         this.printStream = printStream;
+        this.board = board;
+        this.parser = parser;
     }
 
     public void play() {
-        String input = controller.takeMove();
-        if (input.equals("An Invalid Input")) {
-            printStream.println("That input is invalid. Please try again.");
+        board.drawBoard();
+        boolean haveValidInput = false;
+        while (!haveValidInput) {
+            String input = controller.takeMove();
+            haveValidInput = parser.validate(input);
+            if (!haveValidInput) {
+                printStream.println("That input is invalid. Please try again.");
+            } else {
+                board.takeSpace(Integer.valueOf(input));
+            }
         }
     }
 }

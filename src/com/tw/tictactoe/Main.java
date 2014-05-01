@@ -1,10 +1,20 @@
 package com.tw.tictactoe;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+
 /**
  * Created by manderso on 5/1/14.
  */
 public class Main {
     public static void main(String[] args) {
-        new Board(System.out, new boolean[3][3]).displayBoard();
+        PrintStream out = System.out;
+        Board board = new Board(out, new boolean[3][3]);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Controller controller = new Controller(out, reader);
+        InputValidator parser = new InputValidator();
+        Game game = new Game(controller, out, board, parser);
+        game.play();
     }
 }

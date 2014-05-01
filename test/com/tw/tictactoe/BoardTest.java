@@ -31,7 +31,7 @@ public class BoardTest {
     @Test
     public void shouldDrawABoard() {
 
-        board.displayBoard();
+        board.drawBoard();
         verify(printStream).println(
                     " | | " + "\n"
                 +   "-----" + "\n"
@@ -47,5 +47,17 @@ public class BoardTest {
         assertThat(boardSpaces[0][0], is(true));
     }
 
-
+    @Test
+    public void shouldDrawXInOccupiedSpace() {
+        boardSpaces[0][0] = true;
+        boardSpaces[2][1] = true;
+        board.drawBoard();
+        verify(printStream).println(
+                            "X| | " + "\n"
+                        +   "-----" + "\n"
+                        +   " | | " + "\n"
+                        +   "-----" + "\n"
+                        +   " |X| "
+        );
+    }
 }

@@ -8,25 +8,32 @@ import java.io.PrintStream;
 public class Board {
     private PrintStream printStream;
     private boolean[][] boardSpaces;
+    private static final String horizontalSeparator = "\n-----\n";
+    private static final String verticalSeparator = "|";
 
     public Board(PrintStream printStream, boolean[][] boardSpaces) {
 
         this.printStream = printStream;
         this.boardSpaces = boardSpaces;
     }
-
-    public void displayBoard() {
-        String row = " | | ";
-        String horizontalSeparator = "-----";
-        String boardVisualization = row;
-        boardVisualization += "\n";
-        boardVisualization += horizontalSeparator;
-        boardVisualization += "\n";
-        boardVisualization += row;
-        boardVisualization += "\n";
-        boardVisualization += horizontalSeparator;
-        boardVisualization += "\n";
-        boardVisualization += row;
+    //This is ugly as heck
+    public void drawBoard() {
+        String boardVisualization = "";
+        for (int i = 0; i < boardSpaces.length; i++) {
+            for (int j = 0; j < boardSpaces[i].length; j++) {
+                if (boardSpaces[i][j]) {
+                    boardVisualization += "X";
+                } else {
+                    boardVisualization += " ";
+                }
+                if (j+1 < boardSpaces[i].length) {
+                    boardVisualization += verticalSeparator;
+                }
+            }
+            if (i+1 < boardSpaces.length) {
+                boardVisualization += horizontalSeparator;
+            }
+        }
         printStream.println(boardVisualization);
     }
 
