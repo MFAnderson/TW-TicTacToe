@@ -12,9 +12,9 @@ public class Main {
         PrintStream out = System.out;
         Board board = new Board(out, new Player[3][3]);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        Controller controller = new Controller(out, reader);
         InputValidator validator = new InputValidator();
         InputParser parser = new InputParser();
+        Controller controller = new Controller(out, reader, validator, parser);
         Game game = new Game(controller, out, board, validator, parser);
         game.play();
     }

@@ -10,6 +10,7 @@ import java.io.PrintStream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -22,12 +23,17 @@ public class ControllerTest {
     private PrintStream printStream;
     private BufferedReader reader;
     private Controller controller;
+    private InputValidator validator;
+    private InputParser parser;
 
     @Before
     public void setUp() {
         printStream = mock(PrintStream.class);
         reader = mock(BufferedReader.class);
-        controller = new Controller(printStream, reader);
+        validator = mock(InputValidator.class);
+        parser = mock(InputParser.class);
+        when(validator.validate(anyString())).thenReturn(true);
+        controller = new Controller(printStream, reader, validator, parser);
     }
 
     @Test
@@ -53,5 +59,17 @@ public class ControllerTest {
     public void shouldPromptPlayer2ForMove() {
         controller.takeMove(Player.TWO);
         verify(printStream).print("Player 2 next move: ");
+    }
+
+    @Test
+    public void shouldInformOfInvalidInput() {
+        when(validator.validate(anyString())).thenReturn(false).thenReturn(true);
+        controller.takeMove(Player.ONE);
+        verify(printStream).println("That input is invalid. Please try again.");
+    }
+
+    @Test
+    public void shouldReturnParsedInput() {
+        when(parser.parse(anyString())).thenReturn(2);
     }
 }
