@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.PrintStream;
+import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -92,5 +93,18 @@ public class BoardTest {
     public void shouldIndicateFailureIfSpaceNotTaken() {
         board.takeSpace(1, Player.ONE);
         assertThat(board.takeSpace(1, Player.TWO), is(false));
+    }
+
+    @Test
+    public void shouldIndicatedWhenNoMovesLeft() {
+        for (Player[] row : boardSpaces) {
+            Arrays.fill(row, Player.ONE);
+        }
+        assertThat(board.isFull(), is(true));
+    }
+
+    @Test
+    public void shouldNotIndicateFullnessWhenSpacesRemain() {
+        assertThat(board.isFull(), is(false));
     }
 }

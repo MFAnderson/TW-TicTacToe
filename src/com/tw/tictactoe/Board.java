@@ -50,4 +50,15 @@ public class Board {
         }
 
     }
+
+    public boolean isFull() {
+        for (Player[] row : boardSpaces) {
+            for (Player occupier : row) {
+                if (occupier == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
