@@ -18,7 +18,7 @@ public class Controller {
     }
 
     public String takeMove(Player player) {
-        String input = null;
+        String input;
         printStream.print(String.format("Player %d next move: ", player.playerNumber));
         try {
             input = reader.readLine();

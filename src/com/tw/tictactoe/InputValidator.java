@@ -7,11 +7,7 @@ public class InputValidator {
     public boolean validate(String input) {
         try {
             int parsedInput = Integer.valueOf(input);
-            if (parsedInput < 1 || parsedInput > 9) {
-                return false;
-            } else {
-                return true;
-            }
+            return !(parsedInput < 1 || parsedInput > 9);
         } catch (NumberFormatException nfe) {
             return false;
         }

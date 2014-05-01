@@ -23,10 +23,8 @@ public class Board {
             for (int j = 0; j < boardSpaces[i].length; j++) {
                 if (boardSpaces[i][j] == null) {
                     boardVisualization += " ";
-                } else if (boardSpaces[i][j].equals(Player.ONE)) {
-                    boardVisualization += "X";
-                } else if (boardSpaces[i][j].equals(Player.TWO)) {
-                    boardVisualization += "O";
+                } else {
+                    boardVisualization += boardSpaces[i][j].playerSymbol;
                 }
                 if (j+1 < boardSpaces[i].length) {
                     boardVisualization += verticalSeparator;
