@@ -7,6 +7,8 @@ import org.junit.Test;
 
 import java.io.PrintStream;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -17,11 +19,13 @@ public class BoardTest {
 
     private PrintStream printStream;
     private Board board;
+    private boolean[][] boardSpaces;
 
     @Before
     public void setUp() throws Exception {
         printStream = mock(PrintStream.class);
-        board = new Board(printStream);
+        boardSpaces = new boolean[3][3];
+        board = new Board(printStream, boardSpaces);
     }
 
     @Test
@@ -35,6 +39,13 @@ public class BoardTest {
                 +   "-----" + "\n"
                 +   " | | "
         );
-
     }
+
+    @Test
+    public void shouldAcceptAValidMove() {
+        board.takeSpace(1);
+        assertThat(boardSpaces[0][0], is(true));
+    }
+
+
 }

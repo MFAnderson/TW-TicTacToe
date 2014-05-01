@@ -7,10 +7,12 @@ import java.io.PrintStream;
  */
 public class Board {
     private PrintStream printStream;
+    private boolean[][] boardSpaces;
 
-    public Board(PrintStream printStream) {
+    public Board(PrintStream printStream, boolean[][] boardSpaces) {
 
         this.printStream = printStream;
+        this.boardSpaces = boardSpaces;
     }
 
     public void displayBoard() {
@@ -26,5 +28,13 @@ public class Board {
         boardVisualization += "\n";
         boardVisualization += row;
         printStream.println(boardVisualization);
+    }
+
+    public void takeSpace(int input) {
+        assert input > 0;
+        int zeroIndexedInput = input - 1;
+        int row = zeroIndexedInput / 3;
+        int column = zeroIndexedInput % 3;
+        boardSpaces[row][column] = true;
     }
 }

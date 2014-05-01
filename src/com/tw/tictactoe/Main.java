@@ -5,6 +5,6 @@ package com.tw.tictactoe;
  */
 public class Main {
     public static void main(String[] args) {
-        new Board(System.out).displayBoard();
+        new Board(System.out, new boolean[3][3]).displayBoard();
     }
 }
