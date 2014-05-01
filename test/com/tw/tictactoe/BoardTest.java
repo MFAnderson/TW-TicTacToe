@@ -26,6 +26,7 @@ public class BoardTest {
         printStream = mock(PrintStream.class);
         boardSpaces = new Player[3][3];
         board = new Board(printStream, boardSpaces);
+
     }
 
     @Test
@@ -85,5 +86,11 @@ public class BoardTest {
         board.takeSpace(1, Player.ONE);
         board.takeSpace(1, Player.TWO);
         assertThat(boardSpaces[0][0], is(Player.ONE));
+    }
+
+    @Test
+    public void shouldIndicateFailureIfSpaceNotTaken() {
+        board.takeSpace(1, Player.ONE);
+        assertThat(board.takeSpace(1, Player.TWO), is(false));
     }
 }

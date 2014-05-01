@@ -37,13 +37,17 @@ public class Board {
         printStream.println(boardVisualization);
     }
 
-    public void takeSpace(int input, Player player) {
+    public boolean takeSpace(int input, Player player) {
         assert input > 0;
         int zeroIndexedInput = input - 1;
         int row = zeroIndexedInput / 3;
         int column = zeroIndexedInput % 3;
         if (boardSpaces[row][column] == null) {
             boardSpaces[row][column] = player;
+            return true;
+        } else {
+            return false;
         }
+
     }
 }

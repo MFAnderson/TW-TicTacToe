@@ -27,7 +27,9 @@ public class GameTest {
         board = mock(Board.class);
         validator = mock(InputValidator.class);
         parser = mock(InputParser.class);
+        //say things are fine when we aren't testing behaviour of when they aren't
         when(validator.validate(anyString())).thenReturn(true);
+        when(board.takeSpace(anyInt(), any(Player.class))).thenReturn(true);
         game = new Game(controller, printStream, board, validator, parser);
     }
 
@@ -72,4 +74,12 @@ public class GameTest {
         order.verify(controller).takeMove(Player.ONE);
         order.verify(controller).takeMove(Player.TWO);
     }
+
+    @Test
+    public void shouldNotifyPlayerIfMoveCannotBeMade() {
+        when(board.takeSpace(anyInt(), any(Player.class))).thenReturn(false).thenReturn(true);
+        game.play();
+        verify(printStream).println("Location already taken");
+    }
+
 }

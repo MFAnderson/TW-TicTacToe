@@ -23,27 +23,22 @@ public class Game {
 
     public void play() {
         board.drawBoard();
-        boolean haveValidInput = false;
-        while (!haveValidInput) {
-            String input = controller.takeMove(Player.ONE);
-            haveValidInput = validator.validate(input);
-            if (!haveValidInput) {
-                printStream.println("That input is invalid. Please try again.");
-            } else {
-                board.takeSpace(parser.parse(input), Player.ONE);
+        for (Player player : Player.values()) {
+            boolean haveValidInput = false;
+            while (!haveValidInput) {
+                String input = controller.takeMove(player);
+                haveValidInput = validator.validate(input);
+                if (!haveValidInput) {
+                    printStream.println("That input is invalid. Please try again.");
+                } else {
+                    boolean success = board.takeSpace(parser.parse(input), player);
+                    if (!success) {
+                        printStream.println("Location already taken");
+                        haveValidInput = false;
+                    }
+                }
             }
+            board.drawBoard();
         }
-        board.drawBoard();
-        haveValidInput = false;
-        while (!haveValidInput) {
-            String input = controller.takeMove(Player.TWO);
-            haveValidInput = validator.validate(input);
-            if (!haveValidInput) {
-                printStream.println("That input is invalid. Please try again.");
-            } else {
-                board.takeSpace(parser.parse(input), Player.TWO);
-            }
-        }
-        board.drawBoard();
     }
 }
