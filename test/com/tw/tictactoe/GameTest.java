@@ -34,7 +34,7 @@ public class GameTest {
     @Test
     public void shouldRequestMove() {
         game.play();
-        verify(controller).takeMove();
+        verify(controller).takeMove(Player.ONE);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class GameTest {
     public void shouldPerformMoveWhenGivenValidInput() {
         when(parser.parse(anyString())).thenReturn(2);
         game.play();
-        verify(board).takeSpace(2);
+        verify(board).takeSpace(2, Player.ONE);
     }
 
     @Test

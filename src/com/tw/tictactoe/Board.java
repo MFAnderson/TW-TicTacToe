@@ -7,11 +7,11 @@ import java.io.PrintStream;
  */
 public class Board {
     private PrintStream printStream;
-    private boolean[][] boardSpaces;
+    private Player[][] boardSpaces;
     private static final String horizontalSeparator = "\n-----\n";
     private static final String verticalSeparator = "|";
 
-    public Board(PrintStream printStream, boolean[][] boardSpaces) {
+    public Board(PrintStream printStream, Player[][] boardSpaces) {
 
         this.printStream = printStream;
         this.boardSpaces = boardSpaces;
@@ -21,10 +21,12 @@ public class Board {
         String boardVisualization = "";
         for (int i = 0; i < boardSpaces.length; i++) {
             for (int j = 0; j < boardSpaces[i].length; j++) {
-                if (boardSpaces[i][j]) {
+                if (boardSpaces[i][j] == null) {
+                    boardVisualization += " ";
+                } else if (boardSpaces[i][j].equals(Player.ONE)) {
                     boardVisualization += "X";
                 } else {
-                    boardVisualization += " ";
+
                 }
                 if (j+1 < boardSpaces[i].length) {
                     boardVisualization += verticalSeparator;
@@ -37,11 +39,11 @@ public class Board {
         printStream.println(boardVisualization);
     }
 
-    public void takeSpace(int input) {
+    public void takeSpace(int input, Player player) {
         assert input > 0;
         int zeroIndexedInput = input - 1;
         int row = zeroIndexedInput / 3;
         int column = zeroIndexedInput % 3;
-        boardSpaces[row][column] = true;
+        boardSpaces[row][column] = player;
     }
 }

@@ -32,13 +32,13 @@ public class ControllerTest {
 
     @Test
     public void shouldPromptPlayer1ForMove() throws IOException {
-        controller.takeMove();
+        controller.takeMove(Player.ONE);
         verify(printStream).print("Player 1 next move: ");
     }
 
     @Test
     public void shouldAcceptAUserInput() throws IOException {
-        controller.takeMove();
+        controller.takeMove(Player.ONE);
         verify(reader).readLine();
     }
 
@@ -46,6 +46,12 @@ public class ControllerTest {
     public void shouldReturnUserSelectedMove() throws IOException {
         String input = "1";
         when(reader.readLine()).thenReturn(input);
-        assertThat(controller.takeMove(), is(input));
+        assertThat(controller.takeMove(Player.ONE), is(input));
+    }
+
+    @Test
+    public void shouldPromptPlayer2ForMove() {
+        controller.takeMove(Player.TWO);
+        verify(printStream).print("Player 2 next move: ");
     }
 }

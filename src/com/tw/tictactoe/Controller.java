@@ -17,9 +17,9 @@ public class Controller {
         this.reader = reader;
     }
 
-    public String takeMove() {
+    public String takeMove(Player player) {
         String input = null;
-        printStream.print("Player 1 next move: ");
+        printStream.print(String.format("Player %d next move: ", player.playerNumber));
         try {
             input = reader.readLine();
         } catch (IOException ioe) {

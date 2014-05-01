@@ -19,12 +19,12 @@ public class BoardTest {
 
     private PrintStream printStream;
     private Board board;
-    private boolean[][] boardSpaces;
+    private Player[][] boardSpaces;
 
     @Before
     public void setUp() throws Exception {
         printStream = mock(PrintStream.class);
-        boardSpaces = new boolean[3][3];
+        boardSpaces = new Player[3][3];
         board = new Board(printStream, boardSpaces);
     }
 
@@ -43,14 +43,14 @@ public class BoardTest {
 
     @Test
     public void shouldAcceptAValidMove() {
-        board.takeSpace(1);
-        assertThat(boardSpaces[0][0], is(true));
+        board.takeSpace(1, Player.ONE);
+        assertThat(boardSpaces[0][0], is(Player.ONE));
     }
 
     @Test
     public void shouldDrawXInOccupiedSpace() {
-        boardSpaces[0][0] = true;
-        boardSpaces[2][1] = true;
+        boardSpaces[0][0] = Player.ONE;
+        boardSpaces[2][1] = Player.ONE;
         board.drawBoard();
         verify(printStream).println(
                             "X| | " + "\n"
@@ -59,5 +59,11 @@ public class BoardTest {
                         +   "-----" + "\n"
                         +   " |X| "
         );
+    }
+
+    @Test
+    public void shouldTrackSpaceSelectedByPlayer2() {
+        board.takeSpace(1, Player.TWO);
+        assertThat(boardSpaces[0][0], is(Player.TWO));
     }
 }

@@ -25,12 +25,12 @@ public class Game {
         board.drawBoard();
         boolean haveValidInput = false;
         while (!haveValidInput) {
-            String input = controller.takeMove();
+            String input = controller.takeMove(Player.ONE);
             haveValidInput = validator.validate(input);
             if (!haveValidInput) {
                 printStream.println("That input is invalid. Please try again.");
             } else {
-                board.takeSpace(parser.parse(input));
+                board.takeSpace(parser.parse(input), Player.ONE);
             }
         }
         board.drawBoard();
