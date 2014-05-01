@@ -17,13 +17,14 @@ public class Controller {
         this.reader = reader;
     }
 
-    public void takeMove() {
+    public String takeMove() {
+        String input = null;
         printStream.print("Player 1 next move: ");
         try {
-            reader.readLine();
+            input = reader.readLine();
         } catch (IOException ioe) {
             throw new RuntimeException("IO Failure");
         }
-
+        return input;
     }
 }

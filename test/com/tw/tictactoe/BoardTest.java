@@ -1,5 +1,8 @@
 package com.tw.tictactoe;
 
+
+
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.PrintStream;
@@ -12,11 +15,18 @@ import static org.mockito.Mockito.verify;
  */
 public class BoardTest {
 
+    private PrintStream printStream;
+    private Board board;
+
+    @Before
+    public void setUp() throws Exception {
+        printStream = mock(PrintStream.class);
+        board = new Board(printStream);
+    }
+
     @Test
     public void shouldDrawABoard() {
 
-        PrintStream printStream = mock(PrintStream.class);
-        Board board = new Board(printStream);
         board.displayBoard();
         verify(printStream).println(
                     " | | " + "\n"
