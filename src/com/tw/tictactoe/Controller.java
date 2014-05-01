@@ -17,9 +17,13 @@ public class Controller {
         this.reader = reader;
     }
 
-    public void takeMove() throws IOException {
-        printStream.print("Next move: ");
-        reader.readLine();
+    public void takeMove() {
+        printStream.print("Player 1 next move: ");
+        try {
+            reader.readLine();
+        } catch (IOException ioe) {
+            throw new RuntimeException("IO Failure");
+        }
 
     }
 }

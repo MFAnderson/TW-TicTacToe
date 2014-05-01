@@ -27,9 +27,9 @@ public class ControllerTest {
     }
 
     @Test
-    public void shouldPromptForMove() throws IOException {
+    public void shouldPromptPlayer1ForMove() throws IOException {
         controller.takeMove();
-        verify(printStream).print("Next move: ");
+        verify(printStream).print("Player 1 next move: ");
     }
 
     @Test
