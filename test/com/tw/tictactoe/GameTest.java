@@ -29,7 +29,7 @@ public class GameTest {
         parser = mock(InputParser.class);
         //say things are fine when we aren't testing behaviour of when they aren't
         when(validator.validate(anyString())).thenReturn(true);
-        when(board.takeSpace(anyInt(), any(Player.class))).thenReturn(true);
+        when(board.isSpaceOpen(anyInt())).thenReturn(true);
         when(board.isFull()).thenReturn(false).thenReturn(true); //except this, this seems like a code smell
         game = new Game(controller, printStream, board, validator, parser);
     }
@@ -72,7 +72,7 @@ public class GameTest {
 
     @Test
     public void shouldNotifyPlayerIfMoveCannotBeMade() {
-        when(board.takeSpace(anyInt(), any(Player.class))).thenReturn(false).thenReturn(true);
+        when(board.isSpaceOpen(anyInt())).thenReturn(false).thenReturn(true);
         game.play();
         verify(printStream).println("Location already taken");
     }

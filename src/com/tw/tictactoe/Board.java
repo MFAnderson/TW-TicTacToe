@@ -30,14 +30,11 @@ public class Board {
 
     }
 
-    public boolean takeSpace(int input, Player player) {
+    public void takeSpace(int input, Player player) {
         assert input > 0;
         int zeroIndexedInput = input - 1;
         if (boardSpaces[zeroIndexedInput] == ' ') {
             boardSpaces[zeroIndexedInput] = player.playerSymbol;
-            return true;
-        } else {
-            return false;
         }
 
     }

@@ -25,18 +25,23 @@ public class Game {
         board.drawBoard();
         while(!board.isFull()) {
             for (Player player : Player.values()) {
-                boolean moveMade = false;
-                while (!moveMade) {
-                    int input = controller.takeMove(player);
-                    moveMade = board.takeSpace(input, player);
-                    if (!moveMade) {
-                        printStream.println("Location already taken");
-                    }
-                }
+                makeMove(player);
                 board.drawBoard();
                 if (board.isFull()) {
                     break;
                 }
+            }
+        }
+    }
+
+    private void makeMove(Player player) {
+        boolean moveMade = false;
+        while (!moveMade) {
+            int input = controller.takeMove(player);
+            moveMade = board.isSpaceOpen(input);
+            board.takeSpace(input, player);
+            if (!moveMade) {
+                printStream.println("Location already taken");
             }
         }
     }
