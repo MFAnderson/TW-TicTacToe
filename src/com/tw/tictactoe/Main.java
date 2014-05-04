@@ -10,7 +10,7 @@ import java.io.PrintStream;
 public class Main {
     public static void main(String[] args) {
         PrintStream out = System.out;
-        Board board = new Board(out, new Player[9]);
+        Board board = new Board(out, new char[9]);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         InputValidator validator = new InputValidator();
         InputParser parser = new InputParser();
