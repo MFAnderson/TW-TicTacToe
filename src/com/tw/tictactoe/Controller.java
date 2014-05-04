@@ -21,12 +21,12 @@ public class Controller {
         this.parser = parser;
     }
 
-    public int takeMove(Player player) {
+    public int takeMove(int playerNumber) {
         String input = null;
         boolean acceptableInput;
         do {
             try {
-                printStream.print(String.format("Player %d next move: ", player.playerNumber));
+                printStream.print(String.format("Player %d next move: ", playerNumber));
                 input = reader.readLine();
             } catch (IOException ioe) {
                 throw new RuntimeException("IO Failure");

@@ -9,22 +9,18 @@ public class Game {
     private Controller controller;
     private PrintStream printStream;
     private Board board;
-    private InputValidator validator;
-    private InputParser parser;
 
-    public Game(Controller controller, PrintStream printStream, Board board, InputValidator validator, InputParser parser) {
+    public Game(Controller controller, PrintStream printStream, Board board) {
 
         this.controller = controller;
         this.printStream = printStream;
         this.board = board;
-        this.validator = validator;
-        this.parser = parser;
     }
 
     public void play() {
         board.drawBoard();
         while(!board.isFull()) {
-            for (Player player : Player.values()) {
+            for (Player player : new Player[] {Player.ONE, Player.TWO}) {
                 makeMove(player);
                 board.drawBoard();
                 if (board.isFull()) {
@@ -35,12 +31,12 @@ public class Game {
     }
 
     private void makeMove(Player player) {
-        boolean moveMade = false;
-        while (!moveMade) {
-            int input = controller.takeMove(player);
-            moveMade = board.isSpaceOpen(input);
+        boolean canMakeMove = false;
+        while (!canMakeMove) {
+            int input = controller.takeMove(player.playerNumber);
+            canMakeMove = board.isSpaceOpen(input);
             board.takeSpace(input, player);
-            if (!moveMade) {
+            if (!canMakeMove) {
                 printStream.println("Location already taken");
             }
         }

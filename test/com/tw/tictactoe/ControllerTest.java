@@ -38,38 +38,38 @@ public class ControllerTest {
 
     @Test
     public void shouldPromptPlayer1ForMove() throws IOException {
-        controller.takeMove(Player.ONE);
+        controller.takeMove(1);
         verify(printStream).print("Player 1 next move: ");
     }
 
     @Test
     public void shouldAcceptAUserInput() throws IOException {
-        controller.takeMove(Player.ONE);
+        controller.takeMove(1);
         verify(reader).readLine();
     }
 
     @Test
     public void shouldPromptPlayer2ForMove() {
-        controller.takeMove(Player.TWO);
+        controller.takeMove(2);
         verify(printStream).print("Player 2 next move: ");
     }
 
     @Test
     public void shouldInformOfInvalidInput() {
         when(validator.validate(anyString())).thenReturn(false).thenReturn(true);
-        controller.takeMove(Player.ONE);
+        controller.takeMove(1);
         verify(printStream).println("That input is invalid. Please try again.");
     }
     @Test
     public void shouldParseUserInput() throws IOException {
         when(reader.readLine()).thenReturn("1");
-        controller.takeMove(Player.ONE);
+        controller.takeMove(1);
         verify(parser).parse("1");
     }
     @Test
     public void shouldReturnParsedInput() {
         when(parser.parse(anyString())).thenReturn(2);
-        int move = controller.takeMove(Player.ONE);
+        int move = controller.takeMove(1);
         assertThat(move, is(2));
     }
 }

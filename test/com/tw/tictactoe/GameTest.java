@@ -31,13 +31,13 @@ public class GameTest {
         when(validator.validate(anyString())).thenReturn(true);
         when(board.isSpaceOpen(anyInt())).thenReturn(true);
         when(board.isFull()).thenReturn(false).thenReturn(true); //except this, this seems like a code smell
-        game = new Game(controller, printStream, board, validator, parser);
+        game = new Game(controller, printStream, board);
     }
 
     @Test
     public void shouldRequestMove() {
         game.play();
-        verify(controller).takeMove(Player.ONE);
+        verify(controller).takeMove(1);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class GameTest {
 
     @Test
     public void shouldPerformGivenMove() {
-        when(controller.takeMove(Player.ONE)).thenReturn(2);
+        when(controller.takeMove(1)).thenReturn(2);
         game.play();
         verify(board).takeSpace(2, Player.ONE);
     }
@@ -57,7 +57,7 @@ public class GameTest {
     public void shouldRedrawBoardAfterMoveIsTaken() {
         game.play();
         InOrder ordered = inOrder(controller, board);
-        ordered.verify(controller).takeMove(any(Player.class));
+        ordered.verify(controller).takeMove(1);
         ordered.verify(board).drawBoard();
     }
 
@@ -66,8 +66,8 @@ public class GameTest {
         when(board.isFull()).thenReturn(false).thenReturn(false).thenReturn(true);
         game.play();
         InOrder order = inOrder(controller);
-        order.verify(controller).takeMove(Player.ONE);
-        order.verify(controller).takeMove(Player.TWO);
+        order.verify(controller).takeMove(1);
+        order.verify(controller).takeMove(2);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class GameTest {
     public void shouldNotTakeMoreMovesWhenBoardIsFull() {
         when(board.isFull()).thenReturn(true);
         game.play();
-        verify(controller, never()).takeMove(any(Player.class));
+        verify(controller, never()).takeMove(1);
     }
 
 }

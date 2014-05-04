@@ -15,7 +15,7 @@ public class Main {
         InputValidator validator = new InputValidator();
         InputParser parser = new InputParser();
         Controller controller = new Controller(out, reader, validator, parser);
-        Game game = new Game(controller, out, board, validator, parser);
+        Game game = new Game(controller, out, board);
         game.play();
     }
 }
