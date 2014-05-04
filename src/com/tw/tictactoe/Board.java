@@ -29,14 +29,11 @@ public class Board {
         );
 
     }
-
-    public void takeSpace(int input, Player player) {
-        assert input > 0;
-        int zeroIndexedInput = input - 1;
-        if (boardSpaces[zeroIndexedInput] == ' ') {
-            boardSpaces[zeroIndexedInput] = player.playerSymbol;
+    public void markSpace(int space, char symbol) {
+        int zeroIndexed = space - 1;
+        if (boardSpaces[zeroIndexed] == ' ') {
+            boardSpaces[zeroIndexed] = symbol;
         }
-
     }
     public boolean isSpaceOpen(int space) {
         int zeroIndexedSpace = space - 1;

@@ -10,6 +10,7 @@ import java.io.PrintStream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -25,6 +26,7 @@ public class ControllerTest {
     private Controller controller;
     private InputValidator validator;
     private InputParser parser;
+    private Board board;
 
     @Before
     public void setUp() {
@@ -32,8 +34,10 @@ public class ControllerTest {
         reader = mock(BufferedReader.class);
         validator = mock(InputValidator.class);
         parser = mock(InputParser.class);
-        when(validator.validate(anyString())).thenReturn(true);
-        controller = new Controller(printStream, reader, validator, parser);
+        when(validator.isValidInput(anyString())).thenReturn(true);
+        board = mock(Board.class);
+        when(board.isSpaceOpen(anyInt())).thenReturn(true);
+        controller = new Controller(printStream, reader, validator, parser, board);
     }
 
     @Test
@@ -56,7 +60,7 @@ public class ControllerTest {
 
     @Test
     public void shouldInformOfInvalidInput() {
-        when(validator.validate(anyString())).thenReturn(false).thenReturn(true);
+        when(validator.isValidInput(anyString())).thenReturn(false).thenReturn(true);
         controller.takeMove(1);
         verify(printStream).println("That input is invalid. Please try again.");
     }
@@ -71,5 +75,12 @@ public class ControllerTest {
         when(parser.parse(anyString())).thenReturn(2);
         int move = controller.takeMove(1);
         assertThat(move, is(2));
+    }
+
+    @Test
+    public void shouldInformOfInvalidMove() {
+        when(board.isSpaceOpen(anyInt())).thenReturn(false).thenReturn(true);
+        controller.takeMove(1);
+        verify(printStream).println("Location already taken.");
     }
 }

@@ -20,17 +20,19 @@ public class InputValidatorTest {
 
     @Test
     public void shouldReturnTrueIfAValidInteger() {
-        assertThat(validator.validate("1"), is(true));
+        assertThat(validator.isValidInput("1"), is(true));
     }
 
     @Test
     public void shouldReturnFalseIfOutsideOfRange() {
-        assertThat(validator.validate("10"), is(false));
+        assertThat(validator.isValidInput("10"), is(false));
     }
 
     @Test
     public void shouldReturnFalseIfNonIntegerInput() {
-        assertThat(validator.validate("A non integer"), is(false));
+        assertThat(validator.isValidInput("A non integer"), is(false));
     }
+
+
 
 }

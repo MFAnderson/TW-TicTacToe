@@ -12,29 +12,42 @@ public class Controller {
     private BufferedReader reader;
     private InputValidator validator;
     private InputParser parser;
+    private Board board;
 
-    public Controller(PrintStream printStream, BufferedReader reader, InputValidator validator, InputParser parser) {
+    public Controller(PrintStream printStream, BufferedReader reader, InputValidator validator, InputParser parser, Board board) {
 
         this.printStream = printStream;
         this.reader = reader;
         this.validator = validator;
         this.parser = parser;
+        this.board = board;
     }
 
     public int takeMove(int playerNumber) {
-        String input = null;
-        boolean acceptableInput;
+        boolean acceptableInput = true;
+        int parsedInput = -1;
         do {
-            try {
-                printStream.print(String.format("Player %d next move: ", playerNumber));
-                input = reader.readLine();
-            } catch (IOException ioe) {
-                throw new RuntimeException("IO Failure");
-            }
-            if (!(acceptableInput = validator.validate(input))) {
+            printStream.print(String.format("Player %d next move: ", playerNumber));
+            String input = readLine();
+            if (!(acceptableInput = validator.isValidInput(input))) {
                 printStream.println("That input is invalid. Please try again.");
+            } else {
+                parsedInput = parser.parse(input);
+                if (!(acceptableInput = board.isSpaceOpen(parsedInput))) {
+                    printStream.println("Location already taken.");
+                }
             }
         } while (!acceptableInput);
-        return parser.parse(input);
+        return parsedInput;
+    }
+
+    private String readLine() {
+        String input;
+        try {
+            input = reader.readLine();
+        } catch (IOException ioe) {
+            throw new RuntimeException("IO Failure");
+        }
+        return input;
     }
 }

@@ -21,11 +21,15 @@ public class BoardTest {
     private PrintStream printStream;
     private Board board;
     private char[] boardSpaces;
+    private Player player1;
+    private Player player2;
 
     @Before
     public void setUp() throws Exception {
         printStream = mock(PrintStream.class);
         boardSpaces = new char[9];
+        player1 = new Player(1, 'X', board, null); //TODO get rid of these
+        player2 = new Player(2, 'O', board, null);
         board = new Board(printStream, boardSpaces);
 
     }
@@ -35,17 +39,17 @@ public class BoardTest {
 
         board.drawBoard();
         verify(printStream).println(
-                    " | | " + "\n"
-                +   "-----" + "\n"
-                +   " | | " + "\n"
-                +   "-----" + "\n"
-                +   " | | "
+                " | | " + "\n"
+                        + "-----" + "\n"
+                        + " | | " + "\n"
+                        + "-----" + "\n"
+                        + " | | "
         );
     }
 
     @Test
     public void shouldAcceptAValidMove() {
-        board.takeSpace(1, Player.ONE);
+        board.markSpace(1, 'X');
         assertThat(boardSpaces[0], is('X'));
     }
 
@@ -54,30 +58,24 @@ public class BoardTest {
         boardSpaces[0] = 'X';
         board.drawBoard();
         verify(printStream).println(
-                            "X| | " + "\n"
-                        +   "-----" + "\n"
-                        +   " | | " + "\n"
-                        +   "-----" + "\n"
-                        +   " | | "
+                "X| | " + "\n"
+                        + "-----" + "\n"
+                        + " | | " + "\n"
+                        + "-----" + "\n"
+                        + " | | "
         );
     }
 
     @Test
-    public void shouldTrackSpaceSelectedByPlayer2() {
-        board.takeSpace(1, Player.TWO);
-        assertThat(boardSpaces[0], is('O'));
-    }
-
-    @Test
     public void shouldNotOverwriteOccupiedSpace() {
-        board.takeSpace(1, Player.ONE);
-        board.takeSpace(1, Player.TWO);
+        board.markSpace(1, 'X');
+        board.markSpace(1, 'O');
         assertThat(boardSpaces[0], is('X'));
     }
 
     @Test
     public void shouldIndicateSpaceIsFull() {
-        board.takeSpace(1, Player.ONE);
+        board.markSpace(1, 'X');
         assertThat(board.isSpaceOpen(1), is(false));
     }
 
