@@ -7,31 +7,30 @@ import java.io.PrintStream;
  */
 public class Board {
     private PrintStream printStream;
-    private Player[][] boardSpaces;
+    private Player[] boardSpaces;
     private static final String horizontalSeparator = "\n-----\n";
     private static final String verticalSeparator = "|";
 
-    public Board(PrintStream printStream, Player[][] boardSpaces) {
+    public Board(PrintStream printStream, Player[] boardSpaces) {
 
         this.printStream = printStream;
         this.boardSpaces = boardSpaces;
     }
-    //This is ugly as heck
+    //This is marginally less ugly than before, but still ugly
     public void drawBoard() {
         String boardVisualization = "";
         for (int i = 0; i < boardSpaces.length; i++) {
-            for (int j = 0; j < boardSpaces[i].length; j++) {
-                if (boardSpaces[i][j] == null) {
-                    boardVisualization += " ";
-                } else {
-                    boardVisualization += boardSpaces[i][j].playerSymbol;
-                }
-                if (j+1 < boardSpaces[i].length) {
-                    boardVisualization += verticalSeparator;
-                }
+            if (boardSpaces[i] == null) {
+                boardVisualization += " ";
+            } else {
+                boardVisualization += boardSpaces[i].playerSymbol;
             }
             if (i+1 < boardSpaces.length) {
-                boardVisualization += horizontalSeparator;
+                if ((i+1)%3 == 0) {
+                    boardVisualization += horizontalSeparator;
+                } else {
+                    boardVisualization += verticalSeparator;
+                }
             }
         }
         printStream.println(boardVisualization);
@@ -40,10 +39,8 @@ public class Board {
     public boolean takeSpace(int input, Player player) {
         assert input > 0;
         int zeroIndexedInput = input - 1;
-        int row = zeroIndexedInput / 3;
-        int column = zeroIndexedInput % 3;
-        if (boardSpaces[row][column] == null) {
-            boardSpaces[row][column] = player;
+        if (boardSpaces[zeroIndexedInput] == null) {
+            boardSpaces[zeroIndexedInput] = player;
             return true;
         } else {
             return false;
@@ -52,11 +49,9 @@ public class Board {
     }
 
     public boolean isFull() {
-        for (Player[] row : boardSpaces) {
-            for (Player occupier : row) {
-                if (occupier == null) {
-                    return false;
-                }
+        for (Player player : boardSpaces) {
+            if (player == null) {
+                return false;
             }
         }
         return true;

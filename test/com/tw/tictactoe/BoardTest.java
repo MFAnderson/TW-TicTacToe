@@ -20,12 +20,12 @@ public class BoardTest {
 
     private PrintStream printStream;
     private Board board;
-    private Player[][] boardSpaces;
+    private Player[] boardSpaces;
 
     @Before
     public void setUp() throws Exception {
         printStream = mock(PrintStream.class);
-        boardSpaces = new Player[3][3];
+        boardSpaces = new Player[9];
         board = new Board(printStream, boardSpaces);
 
     }
@@ -46,13 +46,13 @@ public class BoardTest {
     @Test
     public void shouldAcceptAValidMove() {
         board.takeSpace(1, Player.ONE);
-        assertThat(boardSpaces[0][0], is(Player.ONE));
+        assertThat(boardSpaces[0], is(Player.ONE));
     }
 
     @Test
     public void shouldDrawXInSpaceOccupiedByPlayerOne() {
-        boardSpaces[0][0] = Player.ONE;
-        boardSpaces[2][1] = Player.ONE;
+        boardSpaces[0] = Player.ONE;
+        boardSpaces[7] = Player.ONE;
         board.drawBoard();
         verify(printStream).println(
                             "X| | " + "\n"
@@ -66,12 +66,12 @@ public class BoardTest {
     @Test
     public void shouldTrackSpaceSelectedByPlayer2() {
         board.takeSpace(1, Player.TWO);
-        assertThat(boardSpaces[0][0], is(Player.TWO));
+        assertThat(boardSpaces[0], is(Player.TWO));
     }
 
     @Test
     public void shouldDrawOInSpaceOccupiedByPlayerTwo() {
-        boardSpaces[1][1] = Player.TWO;
+        boardSpaces[4] = Player.TWO;
         board.drawBoard();
         verify(printStream).println(
                             " | | " + "\n"
@@ -86,7 +86,7 @@ public class BoardTest {
     public void shouldNotOverwriteOccupiedSpace() {
         board.takeSpace(1, Player.ONE);
         board.takeSpace(1, Player.TWO);
-        assertThat(boardSpaces[0][0], is(Player.ONE));
+        assertThat(boardSpaces[0], is(Player.ONE));
     }
 
     @Test
@@ -97,9 +97,7 @@ public class BoardTest {
 
     @Test
     public void shouldIndicatedWhenNoMovesLeft() {
-        for (Player[] row : boardSpaces) {
-            Arrays.fill(row, Player.ONE);
-        }
+        Arrays.fill(boardSpaces, Player.ONE);
         assertThat(board.isFull(), is(true));
     }
 
@@ -107,4 +105,6 @@ public class BoardTest {
     public void shouldNotIndicateFullnessWhenSpacesRemain() {
         assertThat(board.isFull(), is(false));
     }
+
+
 }

@@ -47,7 +47,7 @@ public class GameTest {
     }
 
     @Test
-    public void shouldPerformMoveWhenGivenValidInput() {
+    public void shouldPerformGivenMove() {
         when(controller.takeMove(Player.ONE)).thenReturn(2);
         game.play();
         verify(board).takeSpace(2, Player.ONE);
