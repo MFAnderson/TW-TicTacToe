@@ -41,13 +41,6 @@ public class GameTest {
     }
 
     @Test
-    public void shouldInformOfInvalidInput() {
-        when(validator.validate(anyString())).thenReturn(false).thenReturn(true);
-        game.play();
-        verify(printStream).println("That input is invalid. Please try again.");
-    }
-
-    @Test
     public void shouldDrawBoard() {
         game.play();
         verify(board, atLeastOnce()).drawBoard(); //I feel like this "atLeastOnce" is sketchy
@@ -55,7 +48,7 @@ public class GameTest {
 
     @Test
     public void shouldPerformMoveWhenGivenValidInput() {
-        when(parser.parse(anyString())).thenReturn(2);
+        when(controller.takeMove(Player.ONE)).thenReturn(2);
         game.play();
         verify(board).takeSpace(2, Player.ONE);
     }

@@ -11,15 +11,17 @@ public class Controller {
     private PrintStream printStream;
     private BufferedReader reader;
     private InputValidator validator;
+    private InputParser parser;
 
     public Controller(PrintStream printStream, BufferedReader reader, InputValidator validator, InputParser parser) {
 
         this.printStream = printStream;
         this.reader = reader;
         this.validator = validator;
+        this.parser = parser;
     }
 
-    public String takeMove(Player player) {
+    public int takeMove(Player player) {
         String input = null;
         boolean acceptableInput;
         do {
@@ -29,11 +31,10 @@ public class Controller {
             } catch (IOException ioe) {
                 throw new RuntimeException("IO Failure");
             }
-            acceptableInput = validator.validate(input);
-            if (!acceptableInput) {
+            if (!(acceptableInput = validator.validate(input))) {
                 printStream.println("That input is invalid. Please try again.");
             }
         } while (!acceptableInput);
-        return input;
+        return parser.parse(input);
     }
 }

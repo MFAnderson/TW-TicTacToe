@@ -49,13 +49,6 @@ public class ControllerTest {
     }
 
     @Test
-    public void shouldReturnUserSelectedMove() throws IOException {
-        String input = "1";
-        when(reader.readLine()).thenReturn(input);
-        assertThat(controller.takeMove(Player.ONE), is(input));
-    }
-
-    @Test
     public void shouldPromptPlayer2ForMove() {
         controller.takeMove(Player.TWO);
         verify(printStream).print("Player 2 next move: ");
@@ -67,9 +60,16 @@ public class ControllerTest {
         controller.takeMove(Player.ONE);
         verify(printStream).println("That input is invalid. Please try again.");
     }
-
+    @Test
+    public void shouldParseUserInput() throws IOException {
+        when(reader.readLine()).thenReturn("1");
+        controller.takeMove(Player.ONE);
+        verify(parser).parse("1");
+    }
     @Test
     public void shouldReturnParsedInput() {
         when(parser.parse(anyString())).thenReturn(2);
+        int move = controller.takeMove(Player.ONE);
+        assertThat(move, is(2));
     }
 }

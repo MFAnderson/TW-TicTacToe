@@ -25,18 +25,12 @@ public class Game {
         board.drawBoard();
         while(!board.isFull()) {
             for (Player player : Player.values()) {
-                boolean haveValidInput = false;
-                while (!haveValidInput) {
-                    String input = controller.takeMove(player);
-                    haveValidInput = validator.validate(input);
-                    if (!haveValidInput) {
-                        printStream.println("That input is invalid. Please try again.");
-                    } else {
-                        boolean success = board.takeSpace(parser.parse(input), player);
-                        if (!success) {
-                            printStream.println("Location already taken");
-                            haveValidInput = false;
-                        }
+                boolean moveMade = false;
+                while (!moveMade) {
+                    int input = controller.takeMove(player);
+                    moveMade = board.takeSpace(input, player);
+                    if (!moveMade) {
+                        printStream.println("Location already taken");
                     }
                 }
                 board.drawBoard();
