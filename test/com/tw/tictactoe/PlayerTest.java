@@ -14,27 +14,27 @@ public class PlayerTest {
 
     private Player player;
     private Board board;
-    private Controller controller;
+    private InputManager inputManager;
 
     @Before
     public void setUp() throws Exception {
         board = mock(Board.class);
-        controller = mock(Controller.class);
-        player = new Player(1, 'X', board, controller);
+        inputManager = mock(InputManager.class);
+        player = new Player(1, 'X', board, inputManager);
         when(board.isSpaceOpen(anyInt())).thenReturn(true);
     }
 
     @Test
     public void shouldRequestInput() {
         player.move();
-        verify(controller).takeMove(1);
+        verify(inputManager).takeMove(1);
     }
 
     @Test
-    public void shouldMarkBoardAt0IndexedSpace() {
-        when(controller.takeMove(1)).thenReturn(1);
+    public void shouldMarkBoardAtCorrectSpace() {
+        when(inputManager.takeMove(1)).thenReturn(1);
         player.move();
-        verify(board).markSpace(0, 'X');
+        verify(board).markSpace(1, 'X');
     }
 
 

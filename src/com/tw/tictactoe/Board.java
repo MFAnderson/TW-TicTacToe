@@ -3,9 +3,7 @@ package com.tw.tictactoe;
 import java.io.PrintStream;
 import java.util.Arrays;
 
-/**
- * Created by manderso on 5/1/14.
- */
+
 public class Board {
     private PrintStream printStream;
     private char[] boardSpaces;
@@ -69,5 +67,9 @@ public class Board {
             }
         }
         return ' ';
+    }
+
+    public boolean hasWinner() {
+        return false;
     }
 }

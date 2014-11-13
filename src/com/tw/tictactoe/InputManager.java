@@ -4,17 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
 
-/**
- * Created by manderso on 5/1/14.
- */
-public class Controller {
+
+public class InputManager {
     private PrintStream printStream;
     private BufferedReader reader;
     private InputValidator validator;
     private InputParser parser;
     private Board board;
 
-    public Controller(PrintStream printStream, BufferedReader reader, InputValidator validator, InputParser parser, Board board) {
+    public InputManager(PrintStream printStream, BufferedReader reader, InputValidator validator, InputParser parser, Board board) {
 
         this.printStream = printStream;
         this.reader = reader;

@@ -3,18 +3,14 @@ package com.tw.tictactoe;
 import java.io.PrintStream;
 import java.util.List;
 
-/**
- * Created by manderso on 5/1/14.
- */
+
 public class Game {
-    private Controller controller;
     private PrintStream printStream;
     private Board board;
     private List<Player> players;
 
-    public Game(Controller controller, PrintStream printStream, Board board, List<Player> players) {
+    public Game(PrintStream printStream, Board board, List<Player> players) {
 
-        this.controller = controller;
         this.printStream = printStream;
         this.board = board;
         this.players = players;
@@ -22,14 +18,19 @@ public class Game {
 
     public void play() {
         board.drawBoard();
-        while(!board.isFull()) {
+        do {
             for (Player player : players) {
                 player.move();
                 board.drawBoard();
                 if (board.isFull()) {
+                    printStream.println("Game is a draw");
+                    break;
+                }
+                if (board.hasWinner()) {
+//                    printStream.println(String.format(""))
                     break;
                 }
             }
-        }
+        } while(!board.isFull() && !board.hasWinner());
     }
 }

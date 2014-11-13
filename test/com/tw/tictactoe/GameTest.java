@@ -15,7 +15,6 @@ import static org.mockito.Mockito.*;
  */
 public class GameTest {
 
-    private Controller controller;
     private Game game;
     private PrintStream printStream;
     private Board board;
@@ -25,7 +24,6 @@ public class GameTest {
 
     @Before
     public void setUp() throws Exception {
-        controller = mock(Controller.class);
         printStream = mock(PrintStream.class);
         board = mock(Board.class);
         players = new ArrayList<Player>();
@@ -38,7 +36,7 @@ public class GameTest {
         //say things are fine when we aren't testing behaviour of when they aren't
         when(board.isSpaceOpen(anyInt())).thenReturn(true);
         when(board.isFull()).thenReturn(false).thenReturn(true); //except this, this seems like a code smell
-        game = new Game(controller, printStream, board, players);
+        game = new Game(printStream, board, players);
     }
 
     @Test
@@ -70,18 +68,27 @@ public class GameTest {
         order.verify(player2).move();
     }
 
-//    @Test
-//    public void shouldNotifyPlayerIfMoveCannotBeMade() {
-//        when(board.isSpaceOpen(anyInt())).thenReturn(false).thenReturn(true);
-//        game.play();
-//        verify(printStream).println("Location already taken");
-//    }
-
     @Test
     public void shouldNotTakeMoreMovesWhenBoardIsFull() {
         when(board.isFull()).thenReturn(true);
         game.play();
-        verify(controller, never()).takeMove(1);
+        verify(player2, never()).move();
     }
 
+    @Test
+    public void shouldInformOfDraw() {
+        when(board.isFull()).thenReturn(true);
+        game.play();
+        verify(printStream).println("Game is a draw");
+    }
+
+    @Test
+    public void shouldNotTakeMovesOnceThereIsAWinner() {
+        when(board.hasWinner()).thenReturn(true);
+        game.play();
+        verify(player2, never()).move();
+    }
+
+    @Test
+    public void shouldInformOWin() {}
 }
